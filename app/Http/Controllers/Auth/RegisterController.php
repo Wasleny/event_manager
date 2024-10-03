@@ -6,7 +6,9 @@ use App\Helpers\FormatCPF;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -23,8 +25,10 @@ class RegisterController extends Controller
 
         $input['cpf'] = FormatCPF::removeCPFMask($input['cpf']);
 
-        User::create($input);
+        $user = User::create($input);
 
-        return back();
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }

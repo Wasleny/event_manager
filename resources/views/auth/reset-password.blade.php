@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-body">
-                <h4 class="card-title">Cadastro de Usuário</h4>
+                <h4 class="card-title">Redefinir Senha</h4>
                 @if ($errors->any())
                     <div>
                         <h6>Algo deu errado!</h6>
@@ -16,31 +16,14 @@
                     </div>
                 @endif
 
-                <form action="/cadastro" method="POST">
+                <form action="{{ route('password.update', $token) }}" method="POST">
                     @csrf
 
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nome Sobrenome">
-                        <label for="name">Nome</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="cpf" name="cpf"
-                            placeholder="000.000.000-00">
-                        <label for="cpf">CPF</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="date_birth" name="date_birth">
-                        <label for="date_birth">Data de Nascimento</label>
-                    </div>
+                    <input type="hidden" name="token" value="{{ $token }}">
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control" id="email" name="email"
                             placeholder="nome@exemplo.com">
                         <label for="email">E-mail</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="address" name="address"
-                            placeholder="Rua, número, bairro - Cidade-Estado">
-                        <label for="address">Endereço</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Senha">
@@ -53,7 +36,7 @@
                     </div>
 
                     <div class="float-end mt-3">
-                        <button type="submit" class="btn btn-info">Cadastrar</button>
+                        <button type="submit" class="btn btn-info">Redefinir senha</button>
                     </div>
                 </form>
             </div>
