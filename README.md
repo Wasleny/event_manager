@@ -7,11 +7,12 @@ Esse projeto visa criar um sistema de gerenciamento de eventos e inscrições, c
 ### Pré-requisitos
 
 -   ter Docker instalado na máquina
+-   ter o composer instalado na máquina
 
 ### Comandos
 
 -   Clonar o projeto do github
--   Execute o comando `composer install` (precisa ter o composer instalado) ou o comando `./vendor/bin/sail composer install` para instalar as dependências do projeto
+-   Execute o comando `composer install` (precisa ter o composer instalado)
 -   Execute o comando `npm install` (precisa ter o npm instalado) ou o comando `./vendor/bin/sail npm install` para instalar as dependências do projeto
 -   Gerar arquivo .env
 -   Rodar o comand `./vendor/bin/sail artisan key:generate` para gerar a chave de aplicativo
