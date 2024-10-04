@@ -19,19 +19,25 @@
                 </div>
 
                 <div class="mt-5">
-                    <button class="btn btn-filter mb-2" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#filterEvents" aria-expanded="false" aria-controls="filterEvents">
-                        Filtros
-                    </button>
+                    <div>
+                        <button class="btn btn-filter mb-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#filterEvents" aria-expanded="false" aria-controls="filterEvents">
+                            Filtros
+                        </button>
+                        <button class="btn btn-clear-filter mb-2" type="button"
+                            onclick="event.preventDefault();document.getElementById('filterForm').submit();">
+                            Limpar filtro
+                        </button>
+                    </div>
 
                     <div class="collapse p-3 border rounded" id="filterEvents">
-                        <form action="{{ route('categoria.store') }}" method="POST">
+                        <form action="{{ route('evento.index') }}" method="GET" id="filterForm">
                             @csrf
 
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option>Escolha uma categoria</option>
+                                    <select class="form-select" name="category_id" id="category_id">
+                                        <option value="" selected>Escolha uma categoria</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -63,16 +69,9 @@
                                     <div class="fw-bold">
                                         <span class="category-name">{{ $event->name }}</span>
 
-                                        @if ($event->availability > 50)
-                                            <span class="badge text-bg-success rounded-pill">Vagas disponíveis:
-                                                {{ 0 }}</span>
-                                        @elseif($event->availability > 0)
-                                            <span class="badge badge-warning rounded-pill">Vagas disponíveis:
-                                                {{ 0 }}</span>
-                                        @else
-                                            <span class="badge text-bg-danger rounded-pill">Vagas disponíveis:
-                                                {{ 0 }}</span>
-                                        @endif
+                                        <span class="badge {{ $event->color_badge }} rounded-pill">
+                                            Vagas disponíveis: {{ $event->remaining_spots }}
+                                        </span>
 
                                         <x-event-status :event='$event' />
 

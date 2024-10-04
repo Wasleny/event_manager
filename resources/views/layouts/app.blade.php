@@ -43,8 +43,7 @@
                         </li>
 
                         @auth
-
-                            @if (Auth::user()->has('events'))
+                            @if (Auth::user()->events->count())
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('evento.meus-eventos') }}">{{ __('Meus Eventos') }}</a>
                                 </li>

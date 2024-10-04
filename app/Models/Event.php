@@ -30,12 +30,38 @@ class Event extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function creator()
+    public function user()
     {
         return $this->hasOne(User::class);
     }
 
-    public function getAvailabilityAttribute() {
-        return $this->maximum_capacity;
+    public function registrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    public function getAvailabilityAttribute()
+    {
+        $availability = $this->remaining_spots / $this->maximum_capacity;
+
+        return round($availability * 100, 2);
+    }
+
+    public function getRemainingSpotsAttribute()
+    {
+        return $this->maximum_capacity - $this->registrations->count();
+    }
+
+    public function getColorBadgeAttribute()
+    {
+        if ($this->availability > 50) {
+            return 'text-bg-success';
+        }
+
+        if ($this->availability > 0) {
+            return 'text-bg-warning';
+        }
+
+        return 'text-bg-danger';
     }
 }

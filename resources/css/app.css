@@ -6,6 +6,7 @@
     --edit-color: #e8c900;
     --delete-color: #d55151;
     --show-color: #bf76ff;
+    --secondary-color: #b8b8b8;
 }
 
 .active > .page-link,
@@ -22,13 +23,15 @@
 .btn-create,
 .btn-edit,
 .btn-delete,
-.btn-show {
+.btn-show,
+.btn-cancel {
     color: #ffffff;
     font-weight: bold;
     border-width: 3px;
 }
 
-.btn-filter {
+.btn-filter,
+.btn-clear-filter {
     font-weight: bold;
     border-width: 3px;
 }
@@ -41,13 +44,21 @@
     background-color: transparent;
 }
 
+.btn-clear-filter,
+.btn-clear-filter:hover {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background-color: transparent;
+}
+
 .btn-edit {
     border-color: var(--edit-color);
     color: var(--edit-color);
     background-color: transparent;
 }
 
-.btn-delete {
+.btn-delete,
+.btn-cancel:hover {
     border-color: var(--delete-color);
     color: var(--delete-color);
     background-color: transparent;
@@ -64,7 +75,8 @@
     border-color: var(--edit-color);
 }
 
-.btn-delete:hover {
+.btn-delete:hover,
+.btn-cancel {
     background-color: var(--delete-color);
     border-color: var(--delete-color);
 }

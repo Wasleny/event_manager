@@ -6,6 +6,8 @@ use App\Http\Requests\EventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\EventRegistration;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,10 +16,25 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $categoryId = $request->get('category_id');
+        $date = $request->get('date');
+
+        $query = Event::query();
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($date) {
+            $date = Carbon::parse($date);
+            $query->whereDate('start_datetime', $date);
+        }
+
+
         $data = [
-            'events' => Event::paginate(12),
+            'events' => $query->paginate(12),
             'categories' => Category::whereHas('events')->get(),
             'user_events' => false
         ];
@@ -122,6 +139,69 @@ class EventController extends Controller
 
         session()->flash('success', 'Evento excluído com sucesso.');
         return redirect()->route('evento.index');
+    }
+
+    public function registerToEvent(int $event_id)
+    {
+        $event = Event::where('id', $event_id)->where('status', Event::ATIVO)->first();
+
+        if (!$event) {
+            session()->flash('warning', 'Não foi possível realizar a inscrição, pois o evento não está ativo ou não existe.');
+            return back();
+        }
+
+        if (!Auth::user()) {
+            session()->flash('warning', 'É necessário estar autenticado para acessar esta página.');
+            return back();
+        }
+
+        $userRegistered = EventRegistration::where('participant_email', Auth::user()->email)->where('event_id', $event->id)->exists();
+
+        if ($userRegistered) {
+            session()->flash('warning', 'Você já está inscrito neste evento.');
+            return back();
+        }
+
+        if ($event->remaining_spots == 0) {
+            session()->flash('warning', 'Não foi possível realizar a inscrição, pois o evento não possui vagas disponíveis.');
+            return back();
+        }
+
+        EventRegistration::create([
+            'participant_name' => Auth::user()->name,
+            'participant_email' => Auth::user()->email,
+            'event_id' => $event->id
+        ]);
+
+        session()->flash('success', 'Inscrição realizada com sucesso.');
+        return back();
+    }
+
+    public function destroyEventRegistration(int $event_id)
+    {
+        $event = Event::where('id', $event_id)->where('status', Event::ATIVO)->first();
+
+        if (!$event) {
+            session()->flash('warning', 'Não foi realizar a ação, pois o evento não está ativo ou não existe.');
+            return back();
+        }
+
+        $userRegistered = EventRegistration::where('participant_email', Auth::user()->email)->where('event_id', $event->id)->exists();
+
+        if (!$userRegistered) {
+            session()->flash('warning', 'Você não está inscrito neste evento.');
+            return back();
+        }
+
+        if ($event->start_datetime < today()->startOfDay()) {
+            session()->flash('warning', 'Somente é possível cancelar a inscrição para o evento em datas anteriores ao início do mesmo.');
+            return back();
+        }
+
+        EventRegistration::where('event_id', $event->id)->where('participant_email', Auth::user()->email)->delete();
+
+        session()->flash('success', 'Inscrição cancelada com sucesso.');
+        return back();
     }
 
     private static function checkOwnership(Event $event)

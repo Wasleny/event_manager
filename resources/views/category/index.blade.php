@@ -21,7 +21,7 @@
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">
                                     <span class="category-name">{{ $category->name }}</span>
-                                    <span class="badge rounded-pill">Qtde eventos na categoria</span>
+                                    <span class="badge rounded-pill">Eventos na categoria: {{ $category->events->count() }}</span>
                                 </div>
                             </div>
 
