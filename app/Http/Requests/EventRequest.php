@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CPFRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class RegisterRequest extends FormRequest
+class EventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -23,12 +23,12 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:8',
-            'date_birth' => 'required|date',
-            'address' => 'required',
-            'cpf' => ['required', 'unique:users', new CPFRule()]
+            'name' => 'required|unique:events',
+            'location' => 'required',
+            'start_datetime' => 'required|date|date_format:Y-m-d\TH:i',
+            'end_datetime' => 'required|date|date_format:Y-m-d\TH:i|after:start_datetime',
+            'maximum_capacity' => 'required|min:1',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }

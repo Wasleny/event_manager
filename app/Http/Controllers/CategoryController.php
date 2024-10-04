@@ -13,8 +13,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        // $categories = Category::simplePaginate(20);
+    {;
         $categories = Category::paginate(12);
 
         return view('category.index', ['categories' => $categories]);
@@ -54,7 +53,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, int $id)
     {
-        $category = Category::findOrFail($id)->update(['name' => $request->name]);
+        Category::findOrFail($id)->update(['name' => $request->name]);
 
         session()->flash('success', 'Categoria editada com sucesso.');
         return redirect()->route('categoria.index');

@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -17,11 +19,15 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $dateBirth = $this->faker->dateTimeBetween('-90 years', '-18 years');
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('default_password'),
+            'cpf' => $this->generateUniqueCPF(),
+            'date_birth' => $dateBirth,
+            'address' => fake()->address(),
             'remember_token' => Str::random(10),
         ];
     }
@@ -33,8 +39,42 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function generateUniqueCPF()
+    {
+        $cpf = '';
+
+        do {
+            $cpf = '';
+
+            // Generates the first 9 random digits
+            for ($i = 0; $i < 9; $i++) {
+                $cpf .= rand(0, 9);
+            }
+
+            // Calculates the 10th digit
+            $sum = 0;
+            for ($i = 0; $i < 9; $i++) {
+                $sum += (10 - $i) * intval($cpf[$i]);
+            }
+            $digit1 = $sum % 11 < 2 ? 0 : 11 - ($sum % 11);
+            $cpf .= $digit1;
+
+            // Calculates the 11th digit
+            $sum = 0;
+            for ($i = 0; $i < 10; $i++) {
+                $sum += (11 - $i) * intval($cpf[$i]);
+            }
+            $digit2 = $sum % 11 < 2 ? 0 : 11 - ($sum % 11);
+            $cpf .= $digit2;
+
+            // Checks if the CPF already exists in the database
+        } while (User::where('cpf', $cpf)->exists());
+
+        return $cpf;
     }
 }

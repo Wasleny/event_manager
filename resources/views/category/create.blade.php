@@ -6,16 +6,9 @@
             <div class="card-body">
                 <h4 class="card-title">Cadastro de Categoria</h4>
 
-                @if ($errors->any())
-                    <div>
-                        <h6>Algo deu errado!</h6>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <x-alert-success />
+                <x-alert-warning />
+                <x-alert-errors />
 
                 <form action="{{ route('categoria.store') }}" method="POST">
                     @csrf
@@ -25,9 +18,9 @@
                         <label for="name">Nome</label>
                     </div>
 
-                    <div class="mt-3">
-                        <a href="{{ route('categoria.index') }}" class="btn btn-secondary" role="button">Voltar</a>
-                        <button type="submit" class="btn btn-info float-end">Adicionar</button>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary" role="button">Voltar</a>
+                        <button type="submit" class="btn btn-info">Adicionar</button>
                     </div>
                 </form>
             </div>

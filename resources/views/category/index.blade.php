@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
     <div class="container">
         <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -12,12 +11,9 @@
                     </div>
                 </div>
 
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+                <x-alert-success />
+                <x-alert-warning />
+                <x-alert-errors />
 
                 <ul class="list-group mt-5">
                     @foreach ($categories as $category)

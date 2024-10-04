@@ -15,6 +15,10 @@
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
+
     @stack('styles')
 </head>
 
@@ -34,7 +38,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('evento.index') }}">{{ __('Eventos') }}</a>
+                        </li>
+
                         @auth
+
+                            @if (Auth::user()->has('events'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('evento.meus-eventos') }}">{{ __('Meus Eventos') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('categoria.index') }}">{{ __('Categorias') }}</a>
                             </li>

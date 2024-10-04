@@ -5,16 +5,10 @@
         <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-body">
                 <h4 class="card-title">Cadastro de Usuário</h4>
-                @if ($errors->any())
-                    <div>
-                        <h6>Algo deu errado!</h6>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
+                <x-alert-success />
+                <x-alert-warning />
+                <x-alert-errors />
 
                 <form action="/cadastro" method="POST">
                     @csrf
