@@ -1,1 +1,59 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+    --primary-color: #40b46a;
+    --edit-color: #e8c900;
+    --delete-color: #d55151;
+}
+
+.active > .page-link,
+.badge,
+.btn-create {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link {
+    color: var(--primary-color);
+}
+
+.btn-create,
+.btn-edit,
+.btn-delete {
+    color: #ffffff;
+    font-weight: bold;
+    border-width: 3px;
+}
+
+.btn-create:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+}
+
+.btn-edit {
+    border-color: var(--edit-color);
+    color: var(--edit-color);
+    background-color: transparent;
+}
+
+.btn-delete {
+    border-color: var(--delete-color);
+    color: var(--delete-color);
+    background-color: transparent;
+}
+
+.btn-edit:hover {
+    background-color: var(--edit-color);
+    border-color: var(--edit-color);
+}
+
+.btn-delete:hover {
+    background-color: var(--delete-color);
+    border-color: var(--delete-color);
+}
+
+.category-name {
+    margin-right: 10px;
+}
