@@ -18,44 +18,46 @@
                     @endauth
                 </div>
 
-                <div class="mt-5">
-                    <div>
-                        <button class="btn btn-filter mb-2" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#filterEvents" aria-expanded="false" aria-controls="filterEvents">
-                            Filtros
-                        </button>
-                        <button class="btn btn-clear-filter mb-2" type="button"
-                            onclick="event.preventDefault();document.getElementById('filterForm').submit();">
-                            Limpar filtro
-                        </button>
-                    </div>
+                @if (!$user_events)
+                    <div class="mt-5">
+                        <div>
+                            <button class="btn btn-filter mb-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#filterEvents" aria-expanded="false" aria-controls="filterEvents">
+                                Filtros
+                            </button>
+                            <button class="btn btn-clear-filter mb-2" type="button"
+                                onclick="event.preventDefault();document.getElementById('filterForm').submit();">
+                                Limpar filtro
+                            </button>
+                        </div>
 
-                    <div class="collapse p-3 border rounded" id="filterEvents">
-                        <form action="{{ route('evento.index') }}" method="GET" id="filterForm">
-                            @csrf
+                        <div class="collapse p-3 border rounded" id="filterEvents">
+                            <form action="{{ route('evento.index') }}" method="GET" id="filterForm">
+                                @csrf
 
-                            <div class="row">
-                                <div class="col">
-                                    <select class="form-select" name="category_id" id="category_id">
-                                        <option value="" selected>Escolha uma categoria</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" name="category_id" id="category_id">
+                                            <option value="" selected>Escolha uma categoria</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" class="form-control" name="date" id="date"
+                                            aria-label="Data do Evento">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <input type="date" class="form-control" name="date" id="date"
-                                        aria-label="Data do Evento">
+
+                                <div class="d-flex justify-content-end mt-3">
+                                    <button type="submit" class="btn btn-filter">Filtrar</button>
                                 </div>
-                            </div>
 
-                            <div class="d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-filter">Filtrar</button>
-                            </div>
-
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <x-alert-success />
                 <x-alert-warning />
