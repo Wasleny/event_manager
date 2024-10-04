@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-body">
                 <h4 class="card-title">Cadastro de Usuário</h4>

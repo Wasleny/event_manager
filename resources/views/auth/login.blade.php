@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-body">
                 <h4 class="card-title">Acesso de Usuário</h4>
@@ -13,6 +13,13 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
+                    </div>
+                @endif
+
+                @if (session('warning'))
+                    <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert">
+                        {{ session('warning') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
